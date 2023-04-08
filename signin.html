@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../bootstrap-5.2.2-dist/bootstrap-5.2.2-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../fontawesome-free-6.2.0-web/css/all.min.css">
+</head>
+<body class="px-2">
+    <div class="container w-100 my-4">
+        <div class="row">
+            <div class="col-9 shadow-sm mx-auto rounded-5 lh-md w-100 my-4" style="background-image: url(../IMG/OIP\ \(10\).jpeg); background-repeat: no-repeat; background-size: cover;">
+                <h1 class="text-center mt-3">Sign In Page</h1>
+                <input class="form-control my-2 py-2 mt-4" type="text" placeholder="E-mail" id="mail">
+                <input class="form-control my-2 py-2 mt-4" type="password" placeholder="Password" id="pass">
+                <button class="btn btn-info my-2 w-100 py-2 mt-3" onclick="signIn()" >Sign In</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        var allStudents = JSON.parse(localStorage.getItem('localStudents'))
+        console.log(allStudents)
+        function signIn(){
+            var userEmail = mail.value
+            var userPassword = pass.value
+            var found = false
+            for (let index = 0; index < allStudents.length; index++) {
+                // console.log(allStudents[1].email, allStudents[index].password)
+                if(allStudents[index].email==userEmail && allStudents[index].password==userPassword){
+                    alert(index)
+                    localStorage.setItem('currentIndex',index)
+                    found = true
+                    break; //This is just to stop the for loop
+                }   
+            }
+
+            if(found==true){
+                alert("correct")
+                window.location.href = "dashBoard.html"
+            }else{
+                alert("incorrect details")
+            }
+            // console.log(userEmail,userPassword)
+        }
+    </script>
+</body>
+</html>

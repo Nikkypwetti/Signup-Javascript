@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../bootstrap-5.2.2-dist/bootstrap-5.2.2-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="../fontawesome-free-6.2.0-web/css/all.min.css">
+    <title>SING UP</title>
+</head>
+<body class="px-2">
+    <div class="container w-100 shadow-lg rounded-5 border border-dark bg-dark bg-opacity-10 my-5 ">
+        <div class="row">
+            <div class="col-12 lh-md mx-auto">
+                <h1 class="text-center">WELCOME TO NIKKY'S APP</h1>
+                <input  class="form-control my-2 py-2 mt-4" type="text" placeholder="Full-name" id="fname">
+                <input  class="form-control my-2 py-2 mt-4" type="text" placeholder="Username" id="uname">
+                <input  class="form-control my-2 py-2 mt-4" type="text" placeholder="E-mail" id="mail">
+                <input  class="form-control my-2 py-2 mt-4" type="password" placeholder="Password" id="pass">
+                <button class="btn btn-info my-2 w-100 py-2 mt-4" onclick="signUp()" >Sign Up</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var  allStudents = []
+        if(localStorage.localStudents){
+            var oldData = JSON.parse(localStorage.getItem("localStudents"))
+            allStudents = oldData
+        }
+
+        // console.log(allStudents)
+        function signUp(){
+            var students = {
+                fullname: fname.value,
+                username: uname.value,
+                email: mail.value,
+                password: pass.value,
+            }
+            
+            allStudents.push(students)
+            console.log(allStudents)
+            localStorage.setItem('localStudents', JSON.stringify(allStudents))
+            window.location.href = "signIn.html"
+            displayStudents();
+            
+            fname.value,uname.value,mail.value,pass.value =""
+        }
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,18 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.container{
+    min-height: 60vh;
+    padding: 30px;
+    background-image: url(../IMG/OIP.jpeg);
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}
+
+::placeholder{
+    color: aquamarine;
+}

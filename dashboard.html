@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="../bootstrap-5.2.2-dist/bootstrap-5.2.2-dist/css/bootstrap.css"
+    />
+    <link
+      rel="stylesheet"
+      href="../fontawesome-free-6.2.0-web/css/all.min.css"
+    />
+    <title>Document</title>
+  </head>
+
+  <body onload="displayStudents()">
+    <div class="container-fluid w-100">
+      <div class="row">
+        <div class="col-9 shadow-sm mx-auto">
+          <h1 class="text-center border border-danger text-danger bg-dark">WELCOME TO DASHBOARD</h1>
+        </div>
+        <button class="btn btn-danger" onclick="deleteAll()">Delete All</button>
+      </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div id="editDiv" class="modal-dialog"></div>
+    </div>
+
+    <div id="disp"></div>
+
+    <table id="myTable" class="table table-bordered border-info w-100"></table>
+
+    <script>
+      var allStudents = JSON.parse(localStorage.getItem("localStudents"));
+      var userIndex = localStorage.getItem("currentIndex");
+      function displayStudents() {
+        if (allStudents.length == 0) {
+          myTable.innerHTML = "";
+          disp.innerHTML = `<h1>There are currently no students</h1>`;
+        } else {
+          // console.log(userIndex);
+          disp.innerHTML = ""
+          myTable.innerHTML = ""
+          myTable.innerHTML = `
+                    <tr>
+                       <th class="table-dark">S/N</th>
+                       <th class="table-dark">Full-Name</th>
+                       <th class="table-dark">Username</th>
+                       <th class="table-dark">E-mail</th>
+                       <th class="table-dark">Password</th>
+                       <th class="table-dark">Actions</th>
+                    </tr>
+                    `;
+          for (let index = 0; index < allStudents.length; index++) {
+            // console.log(allStudents[index].fullname);
+            myTable.innerHTML += `
+                        <tr class="table-info">
+                            <td>${index + 1}</td>
+                            <td>${allStudents[index].fullname}</td>
+                            <td>${allStudents[index].username}</td>
+                            <td>${allStudents[index].email}</td>
+                            <td>${allStudents[index].password}</td>
+                            <td>
+                               <button  onclick="deleteUser(${index})" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"onclick="editUser(${index})" class="btn btn-warning"><i class="fas fa-edit"></i>>
+                               </button>
+                            </td>
+                        </tr>    
+                        `;
+          }
+        }
+      }
+
+      function deleteUser(userIndex) {
+        allStudents.splice(userIndex, 1);
+        console.log(allStudents);
+        localStorage.setItem("localStudents", JSON.stringify(allStudents))
+        displayStudents()
+      }
+
+      function editUser(userIndex) {
+        editDiv.innerHTML = `
+            
+                   <div class="modal-content">
+                        <div class="modal-header">
+                           <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="text" placeholder="firstname" id="editfn">
+                            <input type="text" placeholder="lastname" id="editln">
+                            <input type="text" placeholder="email" id="editem">
+                            <input type="text" placeholder="password" id="editps">                   
+                        </div>
+                        <div class="modal-footer">
+                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                           <button type="button" class="btn btn-primary" onclick="updateDetails(${userIndex})">Save changes</button>
+                        </div>
+                    </div>          
+                `;
+        editfn.value = allStudents[userIndex].fullname;
+        editln.value = allStudents[userIndex].username;
+        editem.value = allStudents[userIndex].email;
+        editps.value = allStudents[userIndex].password;
+       // localStorage.setItem("localStudents", allStudents); 
+      }
+
+      function updateDetails(index) {
+        var newDetails = {
+          fullname: editfn.value,
+          username: editln.value,
+          email: editem.value,
+          password: editps.value,
+        };
+        allStudents.splice(index, 1, newDetails);
+        console.log(allStudents);
+        displayStudents();
+        editDiv.innerHTML = "";
+        localStorage.setItem("localStudents", JSON.stringify(allStudents))
+    
+      }
+
+      function deleteAll() {
+        allStudents.splice(0);
+        console.log(allStudents);
+        localStorage.setItem("localStudents", JSON.stringify(allStudents))
+        displayStudents();
+      }
+    </script>
+    <script src="../bootstrap-5.2.2-dist/bootstrap-5.2.2-dist/js/bootstrap.bundle.js"></script>
+  </body>
+</html>
